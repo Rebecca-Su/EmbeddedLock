@@ -102,11 +102,13 @@ void enterPassword(char key) {
       current = "";
       lcd.print("Unlock");
       lcd.setCursor(0, 1);
-      lcd.print("Successful");
+      lcd.print("Successful");   
+      delay(500);   
     } else if (numberOfTries < NUMBER_OF_TRIES_MAX) {
       numberOfTries ++;
       current = "";
       lcd.print("Wrong Password");
+      delay(500);
     } else {
       numberOfTries = 1;
       current = "";
@@ -117,16 +119,17 @@ void enterPassword(char key) {
       message.replace("#", String(TIMEOUT));
       lcd.print(message);
       delay(1000 * TIMEOUT);
-
-      lcd.clear();
-      showEnterPasswordScreen();
     }
+
+    lcd.clear();
+    showEnterPasswordScreen();
   }
 }
 
 void enterPIN(char key) {
   if (key == '#') {
     isEnterPIN = false;
+    lcd.clear();
     showEnterPasswordScreen();
   }
 
@@ -150,7 +153,7 @@ void enterPIN(char key) {
 }
 
 void processInput(char key) {
-  if (current == "") {
+  if (current == "" && key != '#') {
     lcd.clear();
   }
 
