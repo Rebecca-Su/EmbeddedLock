@@ -1,2 +1,2 @@
 # Lock
-Lock Embedded System using Arduino
+LCD display for Keypad Lock using Arduino.
