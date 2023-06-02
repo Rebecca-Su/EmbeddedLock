@@ -5,7 +5,6 @@
 const byte KEYPAD_ROWS = 4;
 const byte KEYPAD_COLS = 3;
 const uint16_t NUMBER_OF_TRIES_MAX = 3;
-const uint16_t NUMBER_OF_DIGITS = 4;
 const uint16_t TIMEOUT = 30;
 
 /* Display */
@@ -23,12 +22,16 @@ char keys[KEYPAD_ROWS][KEYPAD_COLS] = {
 
 Keypad keypad = Keypad(makeKeymap(keys), rowPins, colPins, KEYPAD_ROWS, KEYPAD_COLS);
 
-/* Enter password */
+String current = "";
+String password = "";
+uint16_t numberOfTries = 1;
+bool isFirstTime = true;
+
 void showDefaultScreen() {
   lcd.print("Enter Password");
   lcd.setCursor(0, 1);
   String message = "(# Digits)";
-  message.replace("#", String(NUMBER_OF_DIGITS));
+  message.replace("#", String(password.length()));
   lcd.print(message);
 }
 
@@ -44,11 +47,6 @@ void setup() {
 
   showSetupScreen();
 }
-
-String current = "";
-String PASSWORD = "";
-uint16_t NUMBER_OF_TRIES = 1;
-bool isFirstTime = true;
 
 void processInput(char key) {
   if (current == "") {
@@ -67,27 +65,26 @@ void processInput(char key) {
       showSetupScreen();
     } else if (key == '*') {
       isFirstTime = false;
-      PASSWORD = current;
+      password = current;
       current = "";
       lcd.clear();
       showDefaultScreen();
     }
   } else {
-    if (current.length() >= PASSWORD.length()) {
+    if (current.length() >= password.length()) {
       lcd.clear();
-      if (current == PASSWORD) {
-        NUMBER_OF_TRIES = 1;
+      if (current == password) {
+        numberOfTries = 1;
         current = "";
-        /* This will be replaced by the actual unlock of the lock*/ 
         lcd.print("Unlock");
         lcd.setCursor(0, 1);
         lcd.print("Successful");
-      } else if (NUMBER_OF_TRIES < NUMBER_OF_TRIES_MAX) {
-        NUMBER_OF_TRIES ++;
+      } else if (numberOfTries < NUMBER_OF_TRIES_MAX) {
+        numberOfTries ++;
         current = "";
         lcd.print("Wrong Password");
       } else {
-        NUMBER_OF_TRIES = 1;
+        numberOfTries = 1;
         current = "";
 
         lcd.print("Access Denied");
