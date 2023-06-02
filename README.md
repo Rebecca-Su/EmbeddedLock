@@ -1,2 +1,2 @@
-# SmartLock
-SmartLock Embedded System using Arduino
+# Lock
+Lock Embedded System using Arduino
