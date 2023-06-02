@@ -10,3 +10,5 @@ When entering password, the third wrong password entered will deny user access f
 To reset password, press * and enter PIN to authorize
 - If PIN is correct, the user may reset the password.
 - If PIN is incorrect, the user will be redirected back to attempt to enter the correct password.
+
+NOTE: This project does not include the actual locking and unlocking mechanism.
